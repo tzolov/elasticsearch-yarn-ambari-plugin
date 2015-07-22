@@ -1,0 +1,65 @@
+buildscript {
+	repositories {
+		jcenter()
+	}
+
+	dependencies {
+		classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.6'
+	}
+}
+
+apply plugin: 'os-package'
+apply plugin: 'rpm'
+apply plugin: 'distribution'
+
+buildDeb.enabled = false
+buildRpm.enabled = false
+
+
+ospackage {
+	version = '0.1.1'
+	release = 1
+	arch = NOARCH
+	os = LINUX
+	user 'root'
+	permissionGroup = 'root'
+	packageDescription = 'Ambari\'s stack definition for ElasticSearch-YARN service.'
+	packageGroup = 'Applications/Databases'
+	license = 'Apache License v2.0'
+
+	requires('ambari-server', '1.7', GREATER | EQUAL)
+	requires('python', '2.6', GREATER | EQUAL)
+
+}
+
+task phd30Rpm(type: Rpm) {
+	packageName = 'elasticsearch-yarn-ambari-plugin-phd30'
+	from('src/main/resources/services') {
+		into '/var/lib/ambari-server/resources/stacks/PHD/3.0/services'
+	}
+}
+
+task hdp22Rpm(type: Rpm) {
+	packageName = 'elasticsearch-yarn-ambari-plugin-hdp22'
+	from('src/main/resources/services') {
+		into '/var/lib/ambari-server/resources/stacks/HDP/2.2/services'
+	}
+}
+
+task hdp23Rpm(type: Rpm) {
+	packageName = 'elasticsearch-yarn-ambari-plugin-hdp23'
+	from('src/main/resources/services') {
+		into '/var/lib/ambari-server/resources/stacks/HDP/2.3/services'
+	}
+}
+
+task distTgz(type: Tar) {
+	baseName = 'elasticsearch-yarn-ambari-plugin-' + ospackage.version + '-' + ospackage.release.toString()
+	compression = Compression.GZIP
+	from { 'src/main/resources/services' }
+		 
+}
+
+task dist {
+	dependsOn phd30Rpm, hdp22Rpm, hdp23Rpm, distTgz
+}

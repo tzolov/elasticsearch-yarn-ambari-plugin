@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
+ 
+<configuration>
+
+  <property>
+    <name>es.version</name>
+    <value>1.7.0</value>
+    <description>Elasticsearch version used for downloading, provisioning HDFS and running on the YARN cluster.</description>
+  </property>
+
+  <property>
+    <name>es.yarn.container.count</name>
+    <value>2</value>
+    <description>The number of YARN containers or Elasticsearch nodes for starting the cluster.</description>
+  </property>
+
+  <property>
+    <name>es.yarn.container.mem</name>
+    <value>2048</value>
+    <description>Memory requested for each YARN container.</description>
+  </property>
+
+  <property>
+    <name>es.yarn.container.vcores</name>
+    <value>1</value>
+    <description>CPU cores requested for each YARN container.</description>
+  </property>
+
+  <property>
+    <name>es.yarn.container.priority</name>
+    <value>-1</value>
+    <description>YARN queue priority for each container.</description>
+  </property>
+
+  <property>
+    <name>es.jar.path</name>
+    <value>/opt/es/elasticsearch-yarn.jar</value>
+    <description>File path of ElasticSearch YARN file (.jar).</description>
+  </property>
+  
+  <!-- http://central.maven.org/maven2/org/elasticsearch/elasticsearch-yarn/2.1.0/elasticsearch-yarn-2.1.0.jar -->
+  <property>
+    <name>es.jar.download.url</name>
+    <value>https://oss.sonatype.org/content/repositories/snapshots/org/elasticsearch/elasticsearch-yarn/2.2.0.BUILD-SNAPSHOT/elasticsearch-yarn-2.2.0.BUILD-20150722.024358-29.jar</value>
+    <description>URL to download the ES YARN jar if es.jar.path doesn't exist.</description>
+  </property>
+
+  <property>
+    <name>es.user</name>
+    <value>elastic</value>
+    <description>Linux user account for Elasticserach install and processes.</description>
+  </property>
+
+  <property>
+    <name>es.group</name>
+    <value>elastic</value>
+    <description>Linux group for Elasticsearch install and processes.</description>
+  </property>
+
+  <property>
+    <name>es.user.password</name>
+    <value>elastic</value>
+    <property-type>PASSWORD</property-type>
+    <description>Elasticserarch user password.</description>
+  </property>
+
+  <property>
+    <name>download.local.dir</name>
+    <value>./downloads/</value>
+    <description>Local folder where Elasticsearch on YARN downloads remote artifacts (like Elasticsearch.zip)</description>
+  </property>
+
+  <property>
+    <name>es.hdfs.upload.dir</name>
+    <value>/apps/elasticsearch/</value>
+    <description>HDFS folder used for provisioning</description>
+  </property>
+
+</configuration>
