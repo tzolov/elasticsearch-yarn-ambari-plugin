@@ -1,7 +1,16 @@
 # Ambari plugin for Elasticsearch on Yarn
 Ambari plugin for Elasticsearch on YARN: https://www.elastic.co/guide/en/elasticsearch/hadoop/current/es-yarn.html
-
 Supports PivotalHD 30, Hortonworks HDP2.2 and HDP2.3 (e.g. Ambari 1.7 to Ambari 2.1) Hadoop distributions. 
+
+## Quick Start
+Use the YUM repo to install the plugin
+```
+sudo wget https://bintray.com/big-data/rpm/rpm -O /etc/yum.repos.d/bintray-big-data-rpm.repo
+sudo yum -y install elasticsearch-yarn-ambari-plugin-hdp23
+```
+_(use `elasticsearch-yarn-ambari-plugin-hdp22` or `elasticsearch-yarn-ambari-plugin-phd30` for HDP2.2 and PHD30 Hadoop distros.)._
+
+Use the [Ambari Wizard](docs/README.md) to deploy an Elasticsearch on YARN cluster.
 
 ## How to build 
 Clone the project locally
@@ -71,4 +80,4 @@ sudo yum -y install elasticsearch-yarn-ambari-plugin-hdp23
 ```
 
 ## How to Deploy Elasticserach YARN cluster using the Ambari UI
-//TODO
+Use the [Ambari Wizard](docs/README.md) to deploy an Elasticsearch on YARN cluster.
