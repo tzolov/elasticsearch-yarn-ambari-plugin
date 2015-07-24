@@ -5,12 +5,16 @@
 	<artifactId>elasticsearch-yarn-ambari-plugin</artifactId>
 	<name>elasticsearch-yarn-ambari-plugin</name>
 	<url>http://maven.apache.org</url>
+
+	<version>0.1.11</version>
+	<packaging>pom</packaging>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.fortasoft</groupId>
 				<artifactId>gradle-maven-plugin</artifactId>
-				<version>1.0.8</version>
+				<version>1.0.7</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -48,7 +52,5 @@
 				<version>1.0.7</version>
 			</dependency>
 		</dependencies>
-	</dependencyManagement>
-	<version>0.1.11</version>
-	<packaging>pom</packaging>
+	</dependencyManagement>	
 </project>

@@ -44,7 +44,7 @@ bintray {
 		from ('build/distributions') {
 			include '**/*.rpm'
 		}
-		into 'elastci'         
+		into projectName         
 	}
 
 	pkg {
