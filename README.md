@@ -29,7 +29,7 @@ mvn clean package
 ```
 Result is in `target/distributions`. 
 
-## How to install the plugin
+## How to install the plugin [ ![Download](https://api.bintray.com/packages/big-data/rpm/elasticsearch-yarn-ambari-plugin/images/download.svg) ](https://bintray.com/big-data/rpm/elasticsearch-yarn-ambari-plugin/_latestVersion)
 You can install the Ambari plugion either form the tarlball or RPM/YUM as explained below
 #### 1. Install from tarball (`elasticsearch-yarn-ambari-plugin-xxx.tgz`).
 Copy the tarball to your Ambari server and uncompress it under the desired Ambari stack folder:
@@ -52,7 +52,23 @@ sudo yum -y ./elasticsearch-yarn-ambari-plugin-hdp23-0.1.11-1.noarch.rpm
 sudo /etc/init.d/ambari-server restart 
 ```
 #### 3. Install from pulblic YUM repository
-//TODO 
+
+Run the following to get a generated .repo file:
+```
+wget https://bintray.com/big-data/rpm/rpm -O bintray-big-data-rpm.repo
+```
+or - copy this text into a 'bintray-big-data-rpm.repo' file 
+```
+[bintraybintray-big-data-rpm]
+name=bintray-big-data-rpm
+baseurl=https://dl.bintray.com/big-data/rpm
+gpgcheck=0
+enabled=1 
+```
+and then add it to your yum repositoris
+```
+sudo mv  bintray-big-data-rpm.repo /etc/yum.repos.d/
+```
 
 ## How to Deploy Elasticserach YARN cluster using the Ambari UI
-
+//TODO
