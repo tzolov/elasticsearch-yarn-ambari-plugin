@@ -77,4 +77,16 @@
     <description>HDFS folder used for provisioning</description>
   </property>
 
+  <property>
+    <name>es.load.config</name>
+    <description>Property file to be loaded as configuration. Pattern for setting up environment variables on each container - 
+    	each property starting with env. prefix will be set remotely on each container</description>	
+    <value>
+
+env.ES_USE_GC_LOGGING=true
+
+env.PROP=someValue
+
+    </value>
+  </property>
 </configuration>

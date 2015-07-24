@@ -5,19 +5,22 @@ buildscript {
 
 	dependencies {
 		classpath 'com.netflix.nebula:gradle-ospackage-plugin:2.2.6'
+		classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2"
 	}
 }
 
 apply plugin: 'os-package'
 apply plugin: 'rpm'
 apply plugin: 'distribution'
+apply plugin: 'com.jfrog.bintray'
 
 buildDeb.enabled = false
 buildRpm.enabled = false
 
+def projectName = "elasticsearch-yarn-ambari-plugin"
 
 ospackage {
-	version = '0.1.1'
+	version = '0.1.11'
 	release = 1
 	arch = NOARCH
 	os = LINUX
@@ -29,32 +32,59 @@ ospackage {
 
 	requires('ambari-server', '1.7', GREATER | EQUAL)
 	requires('python', '2.6', GREATER | EQUAL)
+}
 
+bintray {
+	user = 'big-data'
+	key = System.getenv('BINTRAY_BIGDATA_KEY')
+
+	dryRun = false
+	
+	filesSpec {
+		from ('build/distributions') {
+			include '**/*.rpm'
+		}
+		into 'elastci'         
+	}
+
+	pkg {
+		repo = 'rpm'
+		name = projectName
+		desc = 'Ambari Plugin for Elasticserach YARN'
+		licenses = ['Apache-2.0']
+		vcsUrl = 'https://github.com/tzolov/elasticsearch-yarn-ambari-plugin.git'
+		labels = ['search', 'ealsticsearch', 'hadoop', 'ambari']
+		publicDownloadNumbers = true
+		version {
+			name = ospackage.version + '-' + ospackage.release.toString()
+			desc = 'Ambari Plugin for Elasticserach YARN'
+		}
+	}
 }
 
 task phd30Rpm(type: Rpm) {
-	packageName = 'elasticsearch-yarn-ambari-plugin-phd30'
+	packageName = projectName + '-phd30'
 	from('src/main/resources/services') {
 		into '/var/lib/ambari-server/resources/stacks/PHD/3.0/services'
 	}
 }
 
 task hdp22Rpm(type: Rpm) {
-	packageName = 'elasticsearch-yarn-ambari-plugin-hdp22'
+	packageName = projectName + '-hdp22'
 	from('src/main/resources/services') {
 		into '/var/lib/ambari-server/resources/stacks/HDP/2.2/services'
 	}
 }
 
 task hdp23Rpm(type: Rpm) {
-	packageName = 'elasticsearch-yarn-ambari-plugin-hdp23'
+	packageName = projectName + '-hdp23'
 	from('src/main/resources/services') {
 		into '/var/lib/ambari-server/resources/stacks/HDP/2.3/services'
 	}
 }
 
 task distTgz(type: Tar) {
-	baseName = 'elasticsearch-yarn-ambari-plugin-' + ospackage.version + '-' + ospackage.release.toString()
+	baseName = projectName + '-' + ospackage.version + '-' + ospackage.release.toString()
 	compression = Compression.GZIP
 	from { 'src/main/resources/services' }
 		 

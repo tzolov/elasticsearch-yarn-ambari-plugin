@@ -1,5 +1,21 @@
 #!/usr/bin/env python
+"""
+Licensed to the Apache Software Foundation (ASF) under one
+or more contributor license agreements.  See the NOTICE file
+distributed with this work for additional information
+regarding copyright ownership.  The ASF licenses this file
+to you under the Apache License, Version 2.0 (the
+"License"); you may not use this file except in compliance
+with the License.  You may obtain a copy of the License at
 
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+"""
 from resource_management import *
 
 class ElasticSearchMaster(Script):
@@ -53,9 +69,9 @@ class ElasticSearchMaster(Script):
 		
 		self.create_es_hdfs_upload_dir()
 				
-		Execute(format('hadoop jar {es_jar_path} -download-es hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version}'), user=params.es_user, logoutput=True, timeout=300)
-		Execute(format('hadoop jar {es_jar_path} -install-es hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version}'), user=params.es_user, logoutput=True, timeout=300)
-		Execute(format('hadoop jar {es_jar_path} -install hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version}'), user=params.es_user, logoutput=True, timeout=300)
+		Execute(format('hadoop jar {es_jar_path} -download-es hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version} loadConfig=/home/{es_user}/elasticsearch.properties'), user=params.es_user, logoutput=True, timeout=300)
+		Execute(format('hadoop jar {es_jar_path} -install-es hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version} loadConfig=/home/{es_user}/elasticsearch.properties'), user=params.es_user, logoutput=True, timeout=300)
+		Execute(format('hadoop jar {es_jar_path} -install hdfs.upload.dir={es_hdfs_upload_dir} download.local.dir={es_download_local_dir} es.version={es_version} loadConfig=/home/{es_user}/elasticsearch.properties'), user=params.es_user, logoutput=True, timeout=300)
 		
 		# Store the properties required by STATUS phase. Note that the STATUS phase has no access to the Script.get_config()   
 		self.store_status_properties()
@@ -76,28 +92,29 @@ class ElasticSearchMaster(Script):
 			Directory(es_jar_dir, owner=params.es_user, group=params.es_group, recursive=True)						
 			print "Downloading ES YARN jar from: %s to: %s" % (params.es_jar_download_url, params.es_jar_path)
 			geodeTarball = urllib.URLopener()
-			geodeTarball.retrieve(params.es_jar_download_url, params.es_jar_path)		
-		
-
+			geodeTarball.retrieve(params.es_jar_download_url, params.es_jar_path)	
+        
+        	File(format("/home/{es_user}/elasticsearch.properties"), owner=params.es_user, group=params.es_group, content=params.es_load_config_file)
+        
 	def start(self, env):
 		import params
 		env.set_params(params)
 		self.configure(env)
 		
-		Execute(format('hadoop jar {es_jar_path} -start containers={es_yarn_container_count} container.mem={es_yarn_container_mem} container.vcores={es_yarn_container_vcores} container.priority={es_yarn_container_priority} hdfs.upload.dir={es_hdfs_upload_dir} es.version={es_version}'), 
+		Execute(format('hadoop jar {es_jar_path} -start containers={es_yarn_container_count} container.mem={es_yarn_container_mem} container.vcores={es_yarn_container_vcores} container.priority={es_yarn_container_priority} hdfs.upload.dir={es_hdfs_upload_dir} es.version={es_version} loadConfig=/home/{es_user}/elasticsearch.properties'), 
 			user=params.es_user, logoutput=True, timeout=300)
 
 	def stop(self, env):
 		import params
 		env.set_params(params)
 		
-		Execute(format('hadoop jar {es_jar_path} -stop hdfs.upload.dir={es_hdfs_upload_dir} es.version={es_version}'), user=params.es_user, logoutput=True, timeout=300)
+		Execute(format('hadoop jar {es_jar_path} -stop hdfs.upload.dir={es_hdfs_upload_dir} es.version={es_version} loadConfig=/home/{es_user}/elasticsearch.properties'), user=params.es_user, logoutput=True, timeout=300)
 
 	def status(self, env):
 		import status_params
 		env.set_params(status_params)
 		
-		Execute(format('hadoop jar {es_jar_path} -status hdfs.upload.dir={es_hdfs_upload_dir} | grep RUNNING'), user=status_params.es_user, logoutput=True, timeout=300)
+		Execute(format('hadoop jar {es_jar_path} -status hdfs.upload.dir={es_hdfs_upload_dir} loadConfig=/home/{es_user}/elasticsearch.properties| grep RUNNING'), user=status_params.es_user, logoutput=True, timeout=300)
 
 if __name__ == '__main__':
 	ElasticSearchMaster().execute()
