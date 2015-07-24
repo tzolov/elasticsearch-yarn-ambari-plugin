@@ -65,6 +65,10 @@ baseurl=https://dl.bintray.com/big-data/rpm
 gpgcheck=0
 enabled=1 
 ```
+Use `sudo yum info elasticsearch-yarn-ambari-plugin-*` to check the available plugin versions. For example to install the plugin for the HDP2.3 stack run:
+```
+sudo yum -y install elasticsearch-yarn-ambari-plugin-hdp23
+```
 
 ## How to Deploy Elasticserach YARN cluster using the Ambari UI
 //TODO
