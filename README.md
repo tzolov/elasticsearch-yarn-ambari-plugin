@@ -31,12 +31,12 @@ Result is in `target/distributions`.
 
 ## How to install the plugin [ ![Download](https://api.bintray.com/packages/big-data/rpm/elasticsearch-yarn-ambari-plugin/images/download.svg) ](https://bintray.com/big-data/rpm/elasticsearch-yarn-ambari-plugin/_latestVersion)
 You can install the Ambari plugion either form the tarlball or RPM/YUM as explained below
-#### 1. Install from tarball (`elasticsearch-yarn-ambari-plugin-xxx.tgz`).
-Copy the tarball to your Ambari server and uncompress it under the desired Ambari stack folder:
+#### 1. From tarball package
+Uncompress the tarball (`elasticsearch-yarn-ambari-plugin-xxx.tgz`) on the Ambari server node,  under the desired Ambari stack folder:
 ```
 /var/lib/ambari-server/resources/stacks/<STACK NAME>/<STACK VERSION>/services
 ```
-Substitue the stack (name, version) with one of the supported pairs:
+Substitue the stack (name, version) values with one from the supported stacks:
 
   Stack Name|Stack Version | Ambari Version
   --------|----------------|---
@@ -44,30 +44,26 @@ Substitue the stack (name, version) with one of the supported pairs:
   HDP | 2.2 | 2.0.x
   HDP | 2.3 | 2.1.x
 
-#### 2. Install from RPM
+#### 2. From RPM file
 Copoy/download the RPM binary for the desired stack to your Ambari server.
 Install the target rpms and restart Ambari Server. For example to install the pluting on HDP2.3:
 ```
 sudo yum -y ./elasticsearch-yarn-ambari-plugin-hdp23-0.1.11-1.noarch.rpm
 sudo /etc/init.d/ambari-server restart 
 ```
-#### 3. Install from pulblic YUM repository
+#### 3. From public YUM repository
 
 Run the following to get a generated .repo file:
 ```
-wget https://bintray.com/big-data/rpm/rpm -O bintray-big-data-rpm.repo
+sudo wget https://bintray.com/big-data/rpm/rpm -O /etc/yum.repos.d/bintray-big-data-rpm.repo
 ```
-or - copy this text into a 'bintray-big-data-rpm.repo' file 
+or create a `bintray-big-data-rpm.repo` file in the `/etc/yum.repos.d/` dir with this content:
 ```
 [bintraybintray-big-data-rpm]
 name=bintray-big-data-rpm
 baseurl=https://dl.bintray.com/big-data/rpm
 gpgcheck=0
 enabled=1 
-```
-and then add it to your yum repositoris
-```
-sudo mv  bintray-big-data-rpm.repo /etc/yum.repos.d/
 ```
 
 ## How to Deploy Elasticserach YARN cluster using the Ambari UI
