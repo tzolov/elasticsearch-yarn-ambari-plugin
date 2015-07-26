@@ -1,41 +1,61 @@
 <?xml version="1.0"?>
 <metainfo>
-    <schemaVersion>2.0</schemaVersion>
-    <services>
-        <service>
-            <name>ELASTICSEARCH_YARN</name>
-            <displayName>ElasticSearch YARN</displayName>
-            <comment>Search Engine</comment>
-            <version>0.1.11</version>
-            <components>
-                <component>
-                    <name>ELASTICSEARCH_YARN_MASTER</name>
-                    <displayName>ElasticSearch YARN</displayName>
-                    <category>MASTER</category>
-                    <cardinality>1+</cardinality>
-                    <dependencies>
-                        <dependency>
-                            <name>YARN/YARN_CLIENT</name>
-                            <scope>cluster</scope>
-                        </dependency>
-                    </dependencies>
-                    <commandScript>
-                        <script>scripts/master.py</script>
-                        <scriptType>PYTHON</scriptType>
-                        <timeout>600</timeout>
-                    </commandScript>
-                </component>
-            </components>
-            
-            <requiredServices>
-              <service>HDFS</service>
-              <service>ZOOKEEPER</service>
-              <service>YARN</service>
-            </requiredServices>
-
-            <configuration-dependencies>
-                <config-type>elasticsearch-site</config-type>
-            </configuration-dependencies>
-        </service>
-    </services>
+	<schemaVersion>2.0</schemaVersion>
+	<services>
+		<service>
+			<name>ELASTICSEARCH_YARN</name>
+			<displayName>ElasticSearch YARN</displayName>
+			<comment>Search Engine</comment>
+			<version>0.1.12</version>
+			<components>
+				<component>
+					<name>ELASTICSEARCH_YARN_MASTER</name>
+					<displayName>ElasticSearch YARN</displayName>
+					<category>MASTER</category>
+					<cardinality>1</cardinality>
+					<dependencies>
+						<dependency>
+							<name>YARN/RESOURCEMANAGER</name>
+							<scope>cluster</scope>
+						</dependency>
+						<dependency>
+							<name>YARN/NODEMANAGER</name>
+							<scope>cluster</scope>
+						</dependency>						
+						<dependency>
+							<name>HDFS/NAMENODE</name>
+							<scope>cluster</scope>
+						</dependency>
+						<dependency>
+							<name>HDFS/DATANODE</name>
+							<scope>cluster</scope>
+						</dependency>																		
+					</dependencies>
+					<commandScript>
+						<script>scripts/master.py</script>
+						<scriptType>PYTHON</scriptType>
+						<timeout>600</timeout>
+					</commandScript>
+				</component>
+			</components>
+			<requiredServices>
+				<service>HDFS</service>
+				<service>ZOOKEEPER</service>
+				<service>YARN</service>
+			</requiredServices>
+			<configuration-dependencies>
+				<config-type>elasticsearch-site</config-type>
+			</configuration-dependencies>
+			<osSpecifics>
+				<osSpecific>
+					<osFamily>redhat7,redhat6,suse11</osFamily>
+					<packages>
+						<package>
+							<name>hadoop_2_3_*-hdfs</name>
+						</package>
+					</packages>
+				</osSpecific>
+			</osSpecifics>
+		</service>
+	</services>
 </metainfo>

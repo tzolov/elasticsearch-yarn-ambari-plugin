@@ -20,18 +20,19 @@ buildRpm.enabled = false
 def projectName = "elasticsearch-yarn-ambari-plugin"
 
 ospackage {
-	version = '0.1.11'
+	version = '0.1.12'
 	release = 1
 	arch = NOARCH
 	os = LINUX
 	user 'root'
 	permissionGroup = 'root'
-	packageDescription = 'Ambari\'s stack definition for ElasticSearch-YARN service.'
+	packageDescription = 'Ambari\'s stack definition for ElasticSearch-on-YARN service.'
 	packageGroup = 'Applications/Databases'
 	license = 'Apache License v2.0'
 
 	requires('ambari-server', '1.7', GREATER | EQUAL)
 	requires('python', '2.6', GREATER | EQUAL)
+	requires('hadoop-client', '2.4', GREATER | EQUAL)
 }
 
 bintray {
@@ -50,7 +51,7 @@ bintray {
 	pkg {
 		repo = 'rpm'
 		name = projectName
-		desc = 'Ambari Plugin for Elasticserach YARN'
+		desc = 'Ambari Plugin for Elasticsearch on YARN project: https://www.elastic.co/guide/en/elasticsearch/hadoop/current/es-yarn.html'
 		licenses = ['Apache-2.0']
 		vcsUrl = 'https://github.com/tzolov/elasticsearch-yarn-ambari-plugin.git'
 		labels = ['search', 'ealsticsearch', 'hadoop', 'ambari']

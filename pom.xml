@@ -6,7 +6,7 @@
 	<name>elasticsearch-yarn-ambari-plugin</name>
 	<url>http://maven.apache.org</url>
 
-	<version>0.1.11</version>
+	<version>0.1.12</version>
 	<packaging>pom</packaging>
 
 	<build>
