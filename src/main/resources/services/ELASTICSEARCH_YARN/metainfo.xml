@@ -6,7 +6,7 @@
 			<name>ELASTICSEARCH_YARN</name>
 			<displayName>ElasticSearch YARN</displayName>
 			<comment>Search Engine</comment>
-			<version>0.1.12</version>
+			<version>0.1.13</version>
 			<components>
 				<component>
 					<name>ELASTICSEARCH_YARN_MASTER</name>
@@ -26,6 +26,10 @@
 							<name>HDFS/NAMENODE</name>
 							<scope>cluster</scope>
 						</dependency>
+						<dependency>
+							<name>HDFS/SECONDARY_NAMENODE</name>
+							<scope>cluster</scope>
+						</dependency>												
 						<dependency>
 							<name>HDFS/DATANODE</name>
 							<scope>cluster</scope>

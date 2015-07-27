@@ -20,7 +20,7 @@ buildRpm.enabled = false
 def projectName = "elasticsearch-yarn-ambari-plugin"
 
 ospackage {
-	version = '0.1.12'
+	version = '0.1.13'
 	release = 1
 	arch = NOARCH
 	os = LINUX
